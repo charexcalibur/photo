@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2021-03-06 16:20:25
  * @LastEditors: hayato
- * @LastEditTime: 2022-01-11 00:00:10
+ * @LastEditTime: 2022-01-11 23:21:21
  */
 import styles from './index.less'
 import request from 'umi-request'
@@ -48,7 +48,7 @@ export default function IndexPage() {
   const [hasMore, setHasMore] = useState(true)
 
   const getContentHeight = () => {
-    return window.innerHeight - 70 - 64
+    return window.innerHeight - 64
   }
 
   const loadMoreData = () => {
@@ -71,7 +71,7 @@ export default function IndexPage() {
           setHasMore(true)
         }
         setTotal(response.count)
-        setPage(page+1)
+        setPage(page + 1)
         setLoading(false)
 
       })
@@ -91,37 +91,36 @@ export default function IndexPage() {
       <Header>Header</Header>
       <Content className={styles.contentContainer}>
         <div
-          id="scrollableDiv"
-          style={{
+          id = "scrollableDiv"
+          style = {{
             height: getContentHeight(),
-            overflow: 'auto',
-            padding: '0 16px',
-            border: '1px solid rgba(140, 140, 140, 0.35)',
+            overflow: 'auto'
           }}
         >
           <InfiniteScroll
-            dataLength={wallpaperList.length}
-            next={loadMoreData}
-            hasMore={hasMore}
-            loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
-            endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
-            scrollableTarget="scrollableDiv"
+            dataLength = {wallpaperList.length}
+            next = {loadMoreData}
+            hasMore = {hasMore}
+            loader = {<Skeleton avatar paragraph = {{ rows: 1 }} active />}
+            endMessage = {<Divider plain>It is all, nothing more 🤐</Divider>}
+            scrollableTarget = "scrollableDiv"
           >
             <List
-              itemLayout="vertical"
-              grid={{ gutter: 12, column: 3 }}
-              size="small"
-              dataSource={wallpaperList}
+              itemLayout = "vertical"
+              grid = {{ gutter: 0, column: 3, xs: 1, sm: 1, md: 3, lg: 3 }}
+              size = "small"
+              dataSource = {wallpaperList}
               renderItem = {(item: any) => (
-                <List.Item>
+                <div
+                  className = {styles.listItem}
+                >
                   <Image
-                    width={400}
-                    src={item.image_sizes[1].cdn_url}
-                    preview={{
+                    src = {item.image_sizes[1].cdn_url}
+                    preview = {{
                       src: item.image_sizes[0].cdn_url
                     }}
                   />
-                </List.Item>
+                </div>
               )}
             />
           </InfiniteScroll>
@@ -129,8 +128,6 @@ export default function IndexPage() {
         </div>
 
       </Content>
-      <Footer>Footer</Footer>
     </Layout>
-
   );
 }
