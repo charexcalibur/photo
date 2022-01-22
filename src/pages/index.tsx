@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2021-03-06 16:20:25
  * @LastEditors: hayato
- * @LastEditTime: 2022-01-19 22:32:08
+ * @LastEditTime: 2022-01-22 22:12:25
  */
 import styles from './index.less'
 import request from 'umi-request'
@@ -107,7 +107,12 @@ export default function IndexPage() {
 
   return (
     <Layout>
-      <Header>Header</Header>
+      <Header
+        className={styles.headerContainer}
+      >
+        <div className={styles.headerLeft}>Axis Studio</div>
+        <div></div>
+      </Header>
       <Content className={styles.contentContainer}>
         <div
           id='scrollableDiv'
@@ -115,12 +120,13 @@ export default function IndexPage() {
             height: getContentHeight(),
             overflow: 'auto'
           }}
+          className={styles.scrollContainer}
         >
           <InfiniteScroll
             dataLength={wallpaperList.length}
             next={loadMoreData}
             hasMore={hasMore}
-            loader={<Skeleton avatar paragraph={{ rows: 1 }} active />}
+            loader={<div className={styles.loaderSpin}><Spin /></div>}
             endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
             scrollableTarget='scrollableDiv'
           >

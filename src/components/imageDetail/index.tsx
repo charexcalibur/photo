@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2022-01-16 16:14:40
  * @LastEditors: hayato
- * @LastEditTime: 2022-01-19 23:26:52
+ * @LastEditTime: 2022-01-22 21:21:07
  */
 
 import styles from './index.less'
@@ -83,7 +83,7 @@ export default function HaImageDetail(props: HaImageDetailProps) {
 
         </div>
         <div>
-        <List
+        {/* <List
           className="comment-list"
           header={`${data.length} replies`}
           itemLayout="horizontal"
@@ -98,7 +98,7 @@ export default function HaImageDetail(props: HaImageDetailProps) {
               />
             </li>
           )}
-        />
+        /> */}
         </div>
       </Modal>
     </>
