@@ -3,17 +3,17 @@
  * @Author: hayato
  * @Date: 2021-03-06 16:20:25
  * @LastEditors: hayato
- * @LastEditTime: 2022-01-22 22:12:25
+ * @LastEditTime: 2022-02-04 18:51:15
  */
 import styles from './index.less'
 import request from 'umi-request'
 import React, { useState, useEffect } from 'react'
 import { Layout, PageHeader, Image, List, message, Spin, Skeleton, Divider } from 'antd'
-const { Header, Footer, Content } = Layout;
+const { Footer, Content } = Layout;
 import InfiniteScroll from 'react-infinite-scroll-component';
 import HaImage from '@/components/image'
 import HaImageDetail from '@/components/imageDetail'
-
+import HaHeader from '@/components/header'
 
 interface WallpaperResponseResultItem {
   add_time: string;
@@ -56,34 +56,43 @@ export default function IndexPage() {
     return window.innerHeight - 64
   }
 
+  const calculateLimit = (containerHeight: number) => {
+    return Math.round(containerHeight/250)
+  }
+
   const loadMoreData = () => {
-    if (loading) {
-      return;
+    const limit = calculateLimit(getContentHeight())*3*3 // 以三倍缓存
+    if (!hasMore) {
+      return
     }
     setLoading(true);
     request
       .get('https://api.axis-studio.org/wallpaper/wallpapers/', {
         params: {
           page: page,
-          limit: 10
+          limit
         }
       })
       .then(function(response: WallpaperResponse) {
         setWallpaperList([...wallpaperList, ...response.results])
-        if(response.count < 3) {
-          setHasMore(false)
-        } else {
+        if (response.next != null) {
+          setPage(page+1)
           setHasMore(true)
+          setLoading(false)
+        } else {
+          setHasMore(false)
+          setLoading(false)
         }
-        setTotal(response.count)
-        setPage(page + 1)
-        setLoading(false)
-
       })
       .catch(function(error) {
+        console.log(error)
         setHasMore(false)
-        setLoading(false);
+        setLoading(false)
       });
+  }
+
+  const onScroll = () => {
+    console.log('scrolling')
   }
 
   useEffect(() => {
@@ -107,12 +116,7 @@ export default function IndexPage() {
 
   return (
     <Layout>
-      <Header
-        className={styles.headerContainer}
-      >
-        <div className={styles.headerLeft}>Axis Studio</div>
-        <div></div>
-      </Header>
+      <HaHeader></HaHeader>
       <Content className={styles.contentContainer}>
         <div
           id='scrollableDiv'
@@ -125,6 +129,7 @@ export default function IndexPage() {
           <InfiniteScroll
             dataLength={wallpaperList.length}
             next={loadMoreData}
+            onScroll={onScroll}
             hasMore={hasMore}
             loader={<div className={styles.loaderSpin}><Spin /></div>}
             endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
