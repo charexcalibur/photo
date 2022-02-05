@@ -3,28 +3,29 @@
  * @Author: hayato
  * @Date: 2022-01-16 16:14:40
  * @LastEditors: hayato
- * @LastEditTime: 2022-01-22 21:21:07
+ * @LastEditTime: 2022-02-04 21:50:58
  */
 
-import styles from './index.less'
-import request from 'umi-request'
-import React, { useState, useEffect } from 'react'
-import { Modal, Image, Comment, List, Tooltip, Row, Col } from 'antd'
-import moment from 'moment'
+import styles from './index.less';
+import React, { FC } from 'react';
+import { Modal, Image, Comment, List, Tooltip, Row, Col } from 'antd';
+import moment from 'moment';
+import { PicInfo } from '@/pages/index.d';
+import HaPicInfo from '@/components/picInfo';
 
 interface HaImageDetailProps {
   uid?: string;
   visible: boolean;
   src: string;
+  picInfo: PicInfo;
   onCancel?: () => void;
 }
 
-export default function HaImageDetail(props: HaImageDetailProps) {
-
-  const { visible, onCancel, src } = props
+const HaImageDetail: FC<HaImageDetailProps> = (props) => {
+  const { visible, onCancel, src, picInfo } = props;
   const getContentWidth = () => {
-    return window.innerWidth
-  }
+    return window.innerWidth;
+  };
 
   const data = [
     {
@@ -32,13 +33,15 @@ export default function HaImageDetail(props: HaImageDetailProps) {
       author: 'Han Solo',
       content: (
         <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
+          We supply a series of design principles, practical patterns and high
+          quality design resources (Sketch and Axure), to help people create
+          their product prototypes beautifully and efficiently.
         </p>
       ),
       datetime: (
-        <Tooltip title={moment().subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss')}>
+        <Tooltip
+          title={moment().subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss')}
+        >
           <span>{moment().subtract(1, 'days').fromNow()}</span>
         </Tooltip>
       ),
@@ -48,13 +51,15 @@ export default function HaImageDetail(props: HaImageDetailProps) {
       author: 'Han Solo',
       content: (
         <p>
-          We supply a series of design principles, practical patterns and high quality design
-          resources (Sketch and Axure), to help people create their product prototypes beautifully and
-          efficiently.
+          We supply a series of design principles, practical patterns and high
+          quality design resources (Sketch and Axure), to help people create
+          their product prototypes beautifully and efficiently.
         </p>
       ),
       datetime: (
-        <Tooltip title={moment().subtract(2, 'days').format('YYYY-MM-DD HH:mm:ss')}>
+        <Tooltip
+          title={moment().subtract(2, 'days').format('YYYY-MM-DD HH:mm:ss')}
+        >
           <span>{moment().subtract(2, 'days').fromNow()}</span>
         </Tooltip>
       ),
@@ -78,12 +83,13 @@ export default function HaImageDetail(props: HaImageDetailProps) {
                 preview={false}
                 src={src}
               ></Image>
+              <HaPicInfo picInfo={picInfo}></HaPicInfo>
             </Col>
           </Row>
-
         </div>
+
         <div>
-        {/* <List
+          {/* <List
           className="comment-list"
           header={`${data.length} replies`}
           itemLayout="horizontal"
@@ -102,5 +108,7 @@ export default function HaImageDetail(props: HaImageDetailProps) {
         </div>
       </Modal>
     </>
-  )
-}
+  );
+};
+
+export default HaImageDetail;
