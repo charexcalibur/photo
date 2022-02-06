@@ -1,15 +1,5 @@
-# umi project
+# Photo
 
-## Getting Started
+📷 A website that showcases photos I've taken
 
-Install dependencies,
-
-```bash
-$ yarn
-```
-
-Start the dev server,
-
-```bash
-$ yarn start
-```
+💡 Inspired by [camarts](https://camarts.cn/)
