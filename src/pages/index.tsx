@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2021-03-06 16:20:25
  * @LastEditors: hayato
- * @LastEditTime: 2022-02-05 20:20:34
+ * @LastEditTime: 2022-02-05 22:32:48
  */
 import styles from './index.less';
 import request from 'umi-request';
@@ -17,6 +17,7 @@ import {
   Spin,
   Skeleton,
   Divider,
+  Card,
 } from 'antd';
 const { Footer, Content } = Layout;
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -46,6 +47,7 @@ export default function IndexPage() {
   });
 
   const getContentHeight = () => {
+    console.log('getContentHeight');
     return window.innerHeight - 64;
   };
 
@@ -97,6 +99,7 @@ export default function IndexPage() {
     uid?: string,
     preview_url?: string,
   ) => {
+    console.log('handleImageClick');
     setHaDetailImageUrl(preview_url || '');
     setIsModelVisible(true);
     setPicInfo(picInfo);
@@ -117,7 +120,7 @@ export default function IndexPage() {
         <div
           id="scrollableDiv"
           style={{
-            height: getContentHeight(),
+            // height: getContentHeight(),
             overflow: 'auto',
           }}
           className={styles.scrollContainer}
@@ -137,11 +140,11 @@ export default function IndexPage() {
           >
             <List
               itemLayout="vertical"
-              grid={{ gutter: 0, column: 3, xs: 1, sm: 1, md: 3, lg: 3 }}
+              grid={{ gutter: 0, column: 3, xs: 3, sm: 3, md: 3, lg: 3 }}
               size="small"
               dataSource={wallpaperList}
               renderItem={(item: any) => (
-                <div className={styles.listItem}>
+                <Card bordered={false} hoverable className={styles.listItem}>
                   <HaImage
                     src={item.image_sizes[1].cdn_url}
                     onClick={() => {
@@ -162,7 +165,7 @@ export default function IndexPage() {
                       );
                     }}
                   ></HaImage>
-                </div>
+                </Card>
               )}
             />
           </InfiniteScroll>
@@ -170,7 +173,7 @@ export default function IndexPage() {
       </Content>
       <HaImageDetail
         visible={isModelVisible}
-        onCancel={handleCancel}
+        onclose={handleCancel}
         src={haDetailImageUrl}
         picInfo={picInfo}
       ></HaImageDetail>

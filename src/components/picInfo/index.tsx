@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2022-02-04 21:13:17
  * @LastEditors: hayato
- * @LastEditTime: 2022-02-05 20:28:43
+ * @LastEditTime: 2022-02-05 23:54:17
  */
 import React, { FC } from 'react';
 import { PicInfo } from '@/pages/index.d';
@@ -15,6 +15,7 @@ const { Text } = Typography;
 
 interface HaPicInfoProps {
   picInfo: PicInfo;
+  className: string;
 }
 
 const CameraIcon = createFromIconfontCN({
@@ -22,7 +23,7 @@ const CameraIcon = createFromIconfontCN({
 });
 
 const HaPicInfo: FC<HaPicInfoProps> = (props) => {
-  const { picInfo } = props;
+  const { picInfo, className } = props;
   const {
     aperture,
     equipments,
@@ -35,7 +36,7 @@ const HaPicInfo: FC<HaPicInfoProps> = (props) => {
   } = picInfo;
 
   return (
-    <div>
+    <div className={className}>
       <Row gutter={24}>
         <Col span={4}>
           <div className={styles.infoBlock}>
