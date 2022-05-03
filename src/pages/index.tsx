@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2021-03-06 16:20:25
  * @LastEditors: hayato
- * @LastEditTime: 2022-02-05 22:32:48
+ * @LastEditTime: 2022-05-03 23:01:06
  */
 import styles from './index.less';
 import request from 'umi-request';
@@ -18,13 +18,15 @@ import {
   Skeleton,
   Divider,
   Card,
+  Button,
 } from 'antd';
-const { Footer, Content } = Layout;
+const { Footer, Content, Header } = Layout;
 import InfiniteScroll from 'react-infinite-scroll-component';
 import HaImage from '@/components/image';
 import HaImageDetail from '@/components/imageDetail';
 import HaHeader from '@/components/header';
 import { PicInfo, WallpaperResponse } from './index.d';
+import HaPicInfo from '@/components/picInfo';
 
 export default function IndexPage() {
   const [wallpaperList, setWallpaperList] = useState<any[]>([]);
@@ -45,6 +47,7 @@ export default function IndexPage() {
     rate: 0,
     shooting_date: '',
   });
+  const [mode, setMode] = useState('single');
 
   const getContentHeight = () => {
     console.log('getContentHeight');
@@ -113,9 +116,26 @@ export default function IndexPage() {
     setIsModelVisible(false);
   };
 
+  const singleMode = () => {
+    console.log('change to single mode');
+    setMode('single');
+  };
+
+  const tripleMode = () => {
+    console.log('change to triple mode');
+    setMode('triple');
+  };
+
   return (
     <Layout>
-      <HaHeader></HaHeader>
+      {/* <HaHeader></HaHeader> */}
+      <Header className={styles.headerContainer}>
+        <div className={styles.headerLeft}>Axis Studio</div>
+        <div>
+          <Button onClick={singleMode}>单图模式</Button>
+          <Button onClick={tripleMode}>三图模式</Button>
+        </div>
+      </Header>
       <Content className={styles.contentContainer}>
         <div
           id="scrollableDiv"
@@ -140,32 +160,67 @@ export default function IndexPage() {
           >
             <List
               itemLayout="vertical"
-              grid={{ gutter: 0, column: 3, xs: 3, sm: 3, md: 3, lg: 3 }}
-              size="small"
+              grid={
+                mode === 'single'
+                  ? { gutter: 0, column: 1, xs: 1, sm: 1, md: 1, lg: 1 }
+                  : { gutter: 0, column: 3, xs: 3, sm: 3, md: 3, lg: 3 }
+              }
+              size="large"
               dataSource={wallpaperList}
               renderItem={(item: any) => (
-                <Card bordered={false} hoverable className={styles.listItem}>
-                  <HaImage
-                    src={item.image_sizes[1].cdn_url}
-                    onClick={() => {
-                      const picInfo = {
-                        aperture: item.aperture,
-                        equipments: item.equipments,
-                        focal_length: item.focal_length,
-                        iso: item.iso,
-                        shutter: item.shutter,
-                        rate: item.rate,
-                        location: item.location,
-                        shooting_date: item.shooting_date,
-                      };
-                      return handleImageClick(
-                        picInfo,
-                        item.uid,
-                        item.image_sizes[0].cdn_url,
-                      );
-                    }}
-                  ></HaImage>
-                </Card>
+                <>
+                  <Card
+                    bordered={false}
+                    hoverable={mode === 'single' ? false : true}
+                    className={
+                      mode === 'single' ? styles.singleItem : styles.listItem
+                    }
+                    bodyStyle={{ padding: 0 }}
+                  >
+                    <HaImage
+                      mode={mode}
+                      src={
+                        mode === 'single'
+                          ? item.image_sizes[0].cdn_url
+                          : item.image_sizes[1].cdn_url
+                      }
+                      onClick={() => {
+                        if (mode === 'triple') {
+                          const picInfo = {
+                            aperture: item.aperture,
+                            equipments: item.equipments,
+                            focal_length: item.focal_length,
+                            iso: item.iso,
+                            shutter: item.shutter,
+                            rate: item.rate,
+                            location: item.location,
+                            shooting_date: item.shooting_date,
+                          };
+                          return handleImageClick(
+                            picInfo,
+                            item.uid,
+                            item.image_sizes[0].cdn_url,
+                          );
+                        }
+                      }}
+                    ></HaImage>
+                    {mode === 'single' ? (
+                      <HaPicInfo
+                        className={styles.HaPicInfoLayout}
+                        picInfo={{
+                          aperture: item.aperture,
+                          equipments: item.equipments,
+                          focal_length: item.focal_length,
+                          iso: item.iso,
+                          shutter: item.shutter,
+                          rate: item.rate,
+                          location: item.location,
+                          shooting_date: item.shooting_date,
+                        }}
+                      ></HaPicInfo>
+                    ) : null}
+                  </Card>
+                </>
               )}
             />
           </InfiniteScroll>

@@ -2,6 +2,18 @@
   background: rgb(121, 242, 157);
 }
 
+.headerContainer {
+  height: 4rem;
+  background-color: white;
+  border-bottom: 1px solid #dbdbdb;
+  display: flex;
+  justify-content: space-between;
+}
+
+.headerLeft {
+  font-size: 1.25rem;
+}
+
 .demoLoadingContainer {
   position: absolute;
   bottom: 40px;
@@ -11,7 +23,6 @@
 
 .contentContainer {
   display: flex;
-  // padding: 30px 10rem 0;
   justify-content: center;
 }
 
@@ -20,9 +31,25 @@
   justify-content: center;
   align-items: center;
   background-color: rgb(239, 242, 245);
-  // padding: 20px;
+  padding: 1rem;
   margin: 0.5rem;
   overflow: hidden;
+  width: 100%;
+}
+
+.singleItem {
+  // width: 100%;
+  // padding: 1rem 5rem 5rem 5rem;
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  background-color: rgb(239, 242, 245);
+}
+
+@media screen and (min-width: 768px) {
+  .singleItem {
+    padding: 1rem 10rem 3rem 10rem;
+  }
 }
 
 .loaderSpin {
@@ -33,5 +60,14 @@
 
 .scrollContainer {
   width: 100%;
-  padding: 2rem 3rem 0;
+  // padding: 1.5rem 2rem 0;
+}
+
+.HaPicInfoLayout {
+  margin-top: 1.5rem;
+  overflow-x: auto;
+  white-space: nowrap;
+  background-color: #fefefe;
+  width: 100%;
+  display: flex;
 }
