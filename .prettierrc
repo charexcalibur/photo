@@ -2,6 +2,8 @@
   "singleQuote": true,
   "trailingComma": "all",
   "printWidth": 80,
+  "semi": false,
+  "jsxSingleQuote": true,
   "overrides": [
     {
       "files": ".prettierrc",
