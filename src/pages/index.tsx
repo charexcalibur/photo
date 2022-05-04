@@ -3,11 +3,11 @@
  * @Author: hayato
  * @Date: 2021-03-06 16:20:25
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-03 23:01:06
+ * @LastEditTime: 2022-05-04 21:40:20
  */
-import styles from './index.less';
-import request from 'umi-request';
-import React, { useState, useEffect } from 'react';
+import styles from './index.less'
+import request from 'umi-request'
+import React, { useState, useEffect } from 'react'
 import {
   Layout,
   PageHeader,
@@ -19,24 +19,24 @@ import {
   Divider,
   Card,
   Button,
-} from 'antd';
-const { Footer, Content, Header } = Layout;
-import InfiniteScroll from 'react-infinite-scroll-component';
-import HaImage from '@/components/image';
-import HaImageDetail from '@/components/imageDetail';
-import HaHeader from '@/components/header';
-import { PicInfo, WallpaperResponse } from './index.d';
-import HaPicInfo from '@/components/picInfo';
+} from 'antd'
+const { Footer, Content, Header } = Layout
+import InfiniteScroll from 'react-infinite-scroll-component'
+import HaImage from '@/components/image'
+import HaImageDetail from '@/components/imageDetail'
+import HaHeader from '@/components/header'
+import { PicInfo, WallpaperResponse } from './index.d'
+import HaPicInfo from '@/components/picInfo'
 
 export default function IndexPage() {
-  const [wallpaperList, setWallpaperList] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [total, setTotal] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
-  const [isModelVisible, setIsModelVisible] = useState(false);
-  const [haDetailImageUrl, setHaDetailImageUrl] = useState('');
+  const [wallpaperList, setWallpaperList] = useState<any[]>([])
+  const [loading, setLoading] = useState(false)
+  const [page, setPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [total, setTotal] = useState(0)
+  const [hasMore, setHasMore] = useState(true)
+  const [isModelVisible, setIsModelVisible] = useState(false)
+  const [haDetailImageUrl, setHaDetailImageUrl] = useState('')
   const [picInfo, setPicInfo] = useState<PicInfo>({
     aperture: '',
     equipments: [],
@@ -46,24 +46,25 @@ export default function IndexPage() {
     location: '',
     rate: 0,
     shooting_date: '',
-  });
-  const [mode, setMode] = useState('single');
+  })
+  const [mode, setMode] = useState('single')
+  const [loadedImageList, setLoadedImageList] = useState<any[]>([])
 
   const getContentHeight = () => {
-    console.log('getContentHeight');
-    return window.innerHeight - 64;
-  };
+    console.log('getContentHeight')
+    return window.innerHeight - 64
+  }
 
   const calculateLimit = (containerHeight: number) => {
-    return Math.round(containerHeight / 250);
-  };
+    return Math.round(containerHeight / 250)
+  }
 
   const loadMoreData = () => {
-    const limit = calculateLimit(getContentHeight()) * 3 * 3; // 以三倍缓存
+    const limit = calculateLimit(getContentHeight()) * 3 * 3 // 以三倍缓存
     if (!hasMore) {
-      return;
+      return
     }
-    setLoading(true);
+    setLoading(true)
     request
       .get('https://api.axis-studio.org/wallpaper/wallpapers/', {
         params: {
@@ -72,59 +73,59 @@ export default function IndexPage() {
         },
       })
       .then(function (response: WallpaperResponse) {
-        setWallpaperList([...wallpaperList, ...response.results]);
+        setWallpaperList([...wallpaperList, ...response.results])
         if (response.next != null) {
-          setPage(page + 1);
-          setHasMore(true);
-          setLoading(false);
+          setPage(page + 1)
+          setHasMore(true)
+          setLoading(false)
         } else {
-          setHasMore(false);
-          setLoading(false);
+          setHasMore(false)
+          setLoading(false)
         }
       })
       .catch(function (error) {
-        console.log(error);
-        setHasMore(false);
-        setLoading(false);
-      });
-  };
+        console.log(error)
+        setHasMore(false)
+        setLoading(false)
+      })
+  }
 
   const onScroll = () => {
-    console.log('scrolling');
-  };
+    console.log('scrolling')
+  }
 
   useEffect(() => {
-    loadMoreData();
-  }, []);
+    loadMoreData()
+  }, [])
 
   const handleImageClick = (
     picInfo: PicInfo,
     uid?: string,
     preview_url?: string,
   ) => {
-    console.log('handleImageClick');
-    setHaDetailImageUrl(preview_url || '');
-    setIsModelVisible(true);
-    setPicInfo(picInfo);
-  };
+    console.log('handleImageClick')
+    setHaDetailImageUrl(preview_url || '')
+    setIsModelVisible(true)
+    setPicInfo(picInfo)
+  }
 
   const handleOk = () => {
-    setIsModelVisible(false);
-  };
+    setIsModelVisible(false)
+  }
 
   const handleCancel = () => {
-    setIsModelVisible(false);
-  };
+    setIsModelVisible(false)
+  }
 
   const singleMode = () => {
-    console.log('change to single mode');
-    setMode('single');
-  };
+    console.log('change to single mode')
+    setMode('single')
+  }
 
   const tripleMode = () => {
-    console.log('change to triple mode');
-    setMode('triple');
-  };
+    console.log('change to triple mode')
+    setMode('triple')
+  }
 
   return (
     <Layout>
@@ -138,7 +139,7 @@ export default function IndexPage() {
       </Header>
       <Content className={styles.contentContainer}>
         <div
-          id="scrollableDiv"
+          id='scrollableDiv'
           style={{
             // height: getContentHeight(),
             overflow: 'auto',
@@ -156,16 +157,16 @@ export default function IndexPage() {
               </div>
             }
             endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
-            scrollableTarget="scrollableDiv"
+            scrollableTarget='scrollableDiv'
           >
             <List
-              itemLayout="vertical"
+              itemLayout='vertical'
               grid={
                 mode === 'single'
                   ? { gutter: 0, column: 1, xs: 1, sm: 1, md: 1, lg: 1 }
                   : { gutter: 0, column: 3, xs: 3, sm: 3, md: 3, lg: 3 }
               }
-              size="large"
+              size='large'
               dataSource={wallpaperList}
               renderItem={(item: any) => (
                 <>
@@ -195,16 +196,19 @@ export default function IndexPage() {
                             rate: item.rate,
                             location: item.location,
                             shooting_date: item.shooting_date,
-                          };
+                          }
                           return handleImageClick(
                             picInfo,
                             item.uid,
                             item.image_sizes[0].cdn_url,
-                          );
+                          )
                         }
                       }}
+                      onLoad={() =>
+                        setLoadedImageList([...loadedImageList, item.id])
+                      }
                     ></HaImage>
-                    {mode === 'single' ? (
+                    {mode === 'single' && loadedImageList.includes(item.id) ? (
                       <HaPicInfo
                         className={styles.HaPicInfoLayout}
                         picInfo={{
@@ -233,5 +237,5 @@ export default function IndexPage() {
         picInfo={picInfo}
       ></HaImageDetail>
     </Layout>
-  );
+  )
 }
