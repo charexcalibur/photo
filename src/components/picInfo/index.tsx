@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2022-02-04 21:13:17
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-04 00:46:14
+ * @LastEditTime: 2022-05-08 18:31:08
  */
 import React, { FC } from 'react'
 import { PicInfo } from '@/pages/index.d'
@@ -19,7 +19,7 @@ interface HaPicInfoProps {
 }
 
 const CameraIcon = createFromIconfontCN({
-  scriptUrl: '//at.alicdn.com/t/font_3168987_hcspjmueixg.js',
+  scriptUrl: '//at.alicdn.com/t/font_3168987_9kwbsb35jhc.js',
 })
 
 const HaPicInfo: FC<HaPicInfoProps> = (props) => {

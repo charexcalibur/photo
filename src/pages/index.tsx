@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2021-03-06 16:20:25
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-04 21:40:20
+ * @LastEditTime: 2022-05-08 18:37:09
  */
 import styles from './index.less'
 import request from 'umi-request'
@@ -27,6 +27,12 @@ import HaImageDetail from '@/components/imageDetail'
 import HaHeader from '@/components/header'
 import { PicInfo, WallpaperResponse } from './index.d'
 import HaPicInfo from '@/components/picInfo'
+
+import { createFromIconfontCN } from '@ant-design/icons'
+
+const Icon = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/font_3168987_9kwbsb35jhc.js',
+})
 
 export default function IndexPage() {
   const [wallpaperList, setWallpaperList] = useState<any[]>([])
@@ -79,12 +85,14 @@ export default function IndexPage() {
           setHasMore(true)
           setLoading(false)
         } else {
+          setPage(page)
           setHasMore(false)
           setLoading(false)
         }
       })
       .catch(function (error) {
         console.log(error)
+        setPage(page)
         setHasMore(false)
         setLoading(false)
       })
@@ -133,15 +141,23 @@ export default function IndexPage() {
       <Header className={styles.headerContainer}>
         <div className={styles.headerLeft}>Axis Studio</div>
         <div>
-          <Button onClick={singleMode}>单图模式</Button>
-          <Button onClick={tripleMode}>三图模式</Button>
+          <Button
+            size='large'
+            icon={<Icon type='icon-daliebiao'></Icon>}
+            onClick={singleMode}
+          ></Button>
+          <Button
+            size='large'
+            icon={<Icon type='icon-dasuolvetuliebiao'></Icon>}
+            onClick={tripleMode}
+          ></Button>
         </div>
       </Header>
       <Content className={styles.contentContainer}>
         <div
           id='scrollableDiv'
           style={{
-            // height: getContentHeight(),
+            height: getContentHeight(),
             overflow: 'auto',
           }}
           className={styles.scrollContainer}
