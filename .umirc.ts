@@ -1,4 +1,5 @@
 import { defineConfig } from 'umi'
+const code = require('./analytics')
 
 export default defineConfig({
   nodeModulesTransform: {
@@ -7,4 +8,8 @@ export default defineConfig({
   routes: [{ path: '/', component: '@/pages/index' }],
   fastRefresh: {},
   hash: true,
+  analytics: {
+    baidu: code.baidu,
+    ga: code.ga,
+  },
 })
