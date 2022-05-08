@@ -1,5 +1,5 @@
 import { defineConfig } from 'umi'
-const code = require('./analytics')
+const code = require('./analytics.json')
 
 export default defineConfig({
   nodeModulesTransform: {
