@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2021-03-06 16:20:25
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-08 18:37:09
+ * @LastEditTime: 2022-05-08 23:51:12
  */
 import styles from './index.less'
 import request from 'umi-request'
@@ -27,6 +27,7 @@ import HaImageDetail from '@/components/imageDetail'
 import HaHeader from '@/components/header'
 import { PicInfo, WallpaperResponse } from './index.d'
 import HaPicInfo from '@/components/picInfo'
+import HaComment from '@/components/comment'
 
 import { createFromIconfontCN } from '@ant-design/icons'
 
@@ -55,6 +56,9 @@ export default function IndexPage() {
   })
   const [mode, setMode] = useState('single')
   const [loadedImageList, setLoadedImageList] = useState<any[]>([])
+  const [showComment, setShowComment] = useState<boolean>(false)
+  const [id, setId] = useState<number | undefined>(undefined)
+  const [comments, setComments] = useState<any[]>([])
 
   const getContentHeight = () => {
     console.log('getContentHeight')
@@ -108,13 +112,17 @@ export default function IndexPage() {
 
   const handleImageClick = (
     picInfo: PicInfo,
-    uid?: string,
-    preview_url?: string,
+    uid: string,
+    preview_url: string,
+    comments: any[],
+    id: number,
   ) => {
     console.log('handleImageClick')
     setHaDetailImageUrl(preview_url || '')
-    setIsModelVisible(true)
     setPicInfo(picInfo)
+    setComments(comments)
+    setId(id)
+    setIsModelVisible(true)
   }
 
   const handleOk = () => {
@@ -217,7 +225,11 @@ export default function IndexPage() {
                             picInfo,
                             item.uid,
                             item.image_sizes[0].cdn_url,
+                            item.comments,
+                            item.id,
                           )
+                        } else {
+                          setShowComment(!showComment)
                         }
                       }}
                       onLoad={() =>
@@ -239,6 +251,12 @@ export default function IndexPage() {
                         }}
                       ></HaPicInfo>
                     ) : null}
+                    {showComment ? (
+                      <HaComment
+                        comments={item.comments}
+                        photo={item.id}
+                      ></HaComment>
+                    ) : null}
                   </Card>
                 </>
               )}
@@ -251,6 +269,8 @@ export default function IndexPage() {
         onclose={handleCancel}
         src={haDetailImageUrl}
         picInfo={picInfo}
+        comments={comments}
+        id={id}
       ></HaImageDetail>
     </Layout>
   )

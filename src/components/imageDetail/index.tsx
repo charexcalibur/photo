@@ -3,32 +3,35 @@
  * @Author: hayato
  * @Date: 2022-01-16 16:14:40
  * @LastEditors: hayato
- * @LastEditTime: 2022-02-06 22:52:45
+ * @LastEditTime: 2022-05-08 23:49:37
  */
 
-import styles from './index.less';
-import React, { FC, useState } from 'react';
-import { Modal, Image, Comment, List, Tooltip, Row, Col, Drawer } from 'antd';
-import moment from 'moment';
-import { PicInfo } from '@/pages/index.d';
-import HaPicInfo from '@/components/picInfo';
+import styles from './index.less'
+import React, { FC, useState } from 'react'
+import { Modal, Image, Comment, List, Tooltip, Row, Col, Drawer } from 'antd'
+import moment from 'moment'
+import { PicInfo } from '@/pages/index.d'
+import HaPicInfo from '@/components/picInfo'
+import HaComment from '@/components/comment'
 
 interface HaImageDetailProps {
-  uid?: string;
-  visible: boolean;
-  src: string;
-  picInfo: PicInfo;
-  onclose?: () => void;
+  uid?: string
+  visible: boolean
+  src: string
+  picInfo: PicInfo
+  onclose?: () => void
+  comments: any[]
+  id: number
 }
 
 const HaImageDetail: FC<HaImageDetailProps> = (props) => {
-  const [isLoad, setIsLoad] = useState(false);
+  const [isLoad, setIsLoad] = useState(false)
 
-  const { visible, onclose, src, picInfo } = props;
+  const { visible, onclose, src, picInfo, comments, id } = props
 
   const getContentWidth = () => {
-    return window.innerWidth;
-  };
+    return window.innerWidth
+  }
 
   // const data = [
   //   {
@@ -79,8 +82,8 @@ const HaImageDetail: FC<HaImageDetailProps> = (props) => {
         destroyOnClose={true}
         mask={false}
         afterVisibleChange={() => {
-          console.log('afterVisibleChange');
-          isLoad ? setIsLoad(false) : setIsLoad(true);
+          console.log('afterVisibleChange')
+          isLoad ? setIsLoad(false) : setIsLoad(true)
         }}
       >
         <div className={styles.modelImageContainer}>
@@ -100,6 +103,7 @@ const HaImageDetail: FC<HaImageDetailProps> = (props) => {
               ) : (
                 <div></div>
               )}
+              <HaComment comments={comments} photo={id}></HaComment>
             </Col>
             <Col span={4} onClick={onclose}></Col>
           </Row>
@@ -125,7 +129,7 @@ const HaImageDetail: FC<HaImageDetailProps> = (props) => {
         </div>
       </Drawer>
     </>
-  );
-};
+  )
+}
 
-export default HaImageDetail;
+export default HaImageDetail
