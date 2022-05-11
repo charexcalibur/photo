@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2022-02-04 21:13:17
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-08 18:31:08
+ * @LastEditTime: 2022-05-12 00:45:19
  */
 import React, { FC } from 'react'
 import { PicInfo } from '@/pages/index.d'
@@ -48,7 +48,7 @@ const HaPicInfo: FC<HaPicInfoProps> = (props) => {
           ></Rate>
         </div>
       </div>
-      <div className={styles.infoBlock}>
+      <div className={styles.cameraBlock}>
         <Text type='secondary'>相机</Text>
         <div className={styles.infoBlockDesc}>
           <CameraIcon type='icon-xiangji'></CameraIcon>
@@ -93,13 +93,13 @@ const HaPicInfo: FC<HaPicInfoProps> = (props) => {
           </Text>
         </div>
       </div>
-      <div className={styles.infoBlock}>
+      <div className={styles.addressBlock}>
         <Text type='secondary'>地点</Text>
         <div className={styles.infoBlockDesc}>
           <Text type='secondary'>{location}</Text>
         </div>
       </div>
-      <div className={styles.infoBlock}>
+      <div className={styles.dateBlock}>
         <Text type='secondary'>日期</Text>
         <div className={styles.infoBlockDesc}>
           <Text type='secondary' className={styles.infoIso}>
