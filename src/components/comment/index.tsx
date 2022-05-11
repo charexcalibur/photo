@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2022-05-08 20:24:28
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-08 23:38:11
+ * @LastEditTime: 2022-05-11 23:45:57
  */
 import { FC, useState } from 'react'
 import { Comment, Button, List, Divider, Form, Input, message } from 'antd'
@@ -19,12 +19,12 @@ interface CommentItem {
   comment: string
   verify_status: number
   pid: number | null
-  photo: number
+  photo: number | undefined
 }
 
 interface HaCommentProps {
   comments: CommentItem[]
-  photo: number
+  photo: number | undefined
 }
 
 const { TextArea } = Input
@@ -66,10 +66,12 @@ const HaComment: FC<HaCommentProps> = (props) => {
   const handleSubmit = (value: any) => {
     console.log('handleSubmit: ', value)
     const postData = {
-      name: value.name === '' ? '匿名用户' : value.name,
+      name:
+        value.name === '' || value.name === undefined ? '匿名用户' : value.name,
       photo: photo,
       comment: value.comment,
     }
+    console.log('postData: ', postData)
     setSubmitting(true)
     request
       .post('https://api.axis-studio.org/wallpaper/comments/', {

@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2022-01-16 16:14:40
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-08 23:49:37
+ * @LastEditTime: 2022-05-11 23:44:57
  */
 
 import styles from './index.less'
@@ -21,7 +21,7 @@ interface HaImageDetailProps {
   picInfo: PicInfo
   onclose?: () => void
   comments: any[]
-  id: number
+  id: number | undefined
 }
 
 const HaImageDetail: FC<HaImageDetailProps> = (props) => {
@@ -32,45 +32,6 @@ const HaImageDetail: FC<HaImageDetailProps> = (props) => {
   const getContentWidth = () => {
     return window.innerWidth
   }
-
-  // const data = [
-  //   {
-  //     actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-  //     author: 'Han Solo',
-  //     content: (
-  //       <p>
-  //         We supply a series of design principles, practical patterns and high
-  //         quality design resources (Sketch and Axure), to help people create
-  //         their product prototypes beautifully and efficiently.
-  //       </p>
-  //     ),
-  //     datetime: (
-  //       <Tooltip
-  //         title={moment().subtract(1, 'days').format('YYYY-MM-DD HH:mm:ss')}
-  //       >
-  //         <span>{moment().subtract(1, 'days').fromNow()}</span>
-  //       </Tooltip>
-  //     ),
-  //   },
-  //   {
-  //     actions: [<span key="comment-list-reply-to-0">Reply to</span>],
-  //     author: 'Han Solo',
-  //     content: (
-  //       <p>
-  //         We supply a series of design principles, practical patterns and high
-  //         quality design resources (Sketch and Axure), to help people create
-  //         their product prototypes beautifully and efficiently.
-  //       </p>
-  //     ),
-  //     datetime: (
-  //       <Tooltip
-  //         title={moment().subtract(2, 'days').format('YYYY-MM-DD HH:mm:ss')}
-  //       >
-  //         <span>{moment().subtract(2, 'days').fromNow()}</span>
-  //       </Tooltip>
-  //     ),
-  //   },
-  // ];
 
   return (
     <>
@@ -107,25 +68,6 @@ const HaImageDetail: FC<HaImageDetailProps> = (props) => {
             </Col>
             <Col span={4} onClick={onclose}></Col>
           </Row>
-        </div>
-
-        <div>
-          {/* <List
-          className="comment-list"
-          header={`${data.length} replies`}
-          itemLayout="horizontal"
-          dataSource={data}
-          renderItem={item => (
-            <li>
-              <Comment
-                actions={item.actions}
-                author={item.author}
-                content={item.content}
-                datetime={item.datetime}
-              />
-            </li>
-          )}
-        /> */}
         </div>
       </Drawer>
     </>

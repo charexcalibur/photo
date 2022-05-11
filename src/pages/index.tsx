@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2021-03-06 16:20:25
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-08 23:51:12
+ * @LastEditTime: 2022-05-09 15:06:32
  */
 import styles from './index.less'
 import request from 'umi-request'
@@ -56,7 +56,7 @@ export default function IndexPage() {
   })
   const [mode, setMode] = useState('single')
   const [loadedImageList, setLoadedImageList] = useState<any[]>([])
-  const [showComment, setShowComment] = useState<boolean>(false)
+  const [showComment, setShowComment] = useState<number>(0)
   const [id, setId] = useState<number | undefined>(undefined)
   const [comments, setComments] = useState<any[]>([])
 
@@ -229,7 +229,13 @@ export default function IndexPage() {
                             item.id,
                           )
                         } else {
-                          setShowComment(!showComment)
+                          if (showComment === 0) {
+                            setShowComment(item.id)
+                          } else if (showComment === item.id) {
+                            setShowComment(0)
+                          } else {
+                            setShowComment(item.id)
+                          }
                         }
                       }}
                       onLoad={() =>
@@ -251,7 +257,7 @@ export default function IndexPage() {
                         }}
                       ></HaPicInfo>
                     ) : null}
-                    {showComment ? (
+                    {showComment === item.id ? (
                       <HaComment
                         comments={item.comments}
                         photo={item.id}
