@@ -9,8 +9,8 @@ export default defineConfig({
   routes: [
     {
       path: '/',
-      component: '@/pages/home',
       routes: [
+        { path: '/', redirect: '/home' },
         { path: '/home', component: '@/pages/home' },
         { path: '/about', component: '@/pages/about' },
       ],
