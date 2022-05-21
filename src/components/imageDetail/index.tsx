@@ -3,14 +3,14 @@
  * @Author: hayato
  * @Date: 2022-01-16 16:14:40
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-11 23:44:57
+ * @LastEditTime: 2022-05-12 18:36:26
  */
 
 import styles from './index.less'
 import React, { FC, useState } from 'react'
 import { Modal, Image, Comment, List, Tooltip, Row, Col, Drawer } from 'antd'
 import moment from 'moment'
-import { PicInfo } from '@/pages/index.d'
+import { PicInfo } from '@/pages/home/index.d'
 import HaPicInfo from '@/components/picInfo'
 import HaComment from '@/components/comment'
 

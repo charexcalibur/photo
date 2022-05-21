@@ -3,39 +3,27 @@
  * @Author: hayato
  * @Date: 2021-03-06 16:20:25
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-09 15:06:32
+ * @LastEditTime: 2022-05-21 18:59:31
  */
 import styles from './index.less'
 import request from 'umi-request'
 import React, { useState, useEffect } from 'react'
-import {
-  Layout,
-  PageHeader,
-  Image,
-  List,
-  message,
-  Spin,
-  Skeleton,
-  Divider,
-  Card,
-  Button,
-} from 'antd'
+import { Layout, List, message, Spin, Divider, Card } from 'antd'
 const { Footer, Content, Header } = Layout
 import InfiniteScroll from 'react-infinite-scroll-component'
 import HaImage from '@/components/image'
 import HaImageDetail from '@/components/imageDetail'
-import HaHeader from '@/components/header'
 import { PicInfo, WallpaperResponse } from './index.d'
 import HaPicInfo from '@/components/picInfo'
 import HaComment from '@/components/comment'
-
 import { createFromIconfontCN } from '@ant-design/icons'
+import { queryPhotos } from './service'
 
 const Icon = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_3168987_9kwbsb35jhc.js',
 })
 
-export default function IndexPage() {
+export default function Scroll(props: any) {
   const [wallpaperList, setWallpaperList] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(1)
@@ -54,52 +42,77 @@ export default function IndexPage() {
     rate: 0,
     shooting_date: '',
   })
-  const [mode, setMode] = useState('single')
   const [loadedImageList, setLoadedImageList] = useState<any[]>([])
   const [showComment, setShowComment] = useState<number>(0)
   const [id, setId] = useState<number | undefined>(undefined)
   const [comments, setComments] = useState<any[]>([])
 
+  const { mode } = props
+
+  console.log('props: ', props)
   const getContentHeight = () => {
     console.log('getContentHeight')
-    return window.innerHeight - 64
+    return window.innerHeight - 64 + 70
   }
 
   const calculateLimit = (containerHeight: number) => {
     return Math.round(containerHeight / 250)
   }
 
-  const loadMoreData = () => {
-    const limit = calculateLimit(getContentHeight()) * 3 * 3 // 以三倍缓存
+  const loadMoreData = async () => {
+    console.log('loadMoreData page: ', page)
+    // const limit = calculateLimit(getContentHeight()) * 3 * 3 // 以三倍缓存
+    const limit = mode === 'single' ? 3 : calculateLimit(getContentHeight()) * 3
+    // const limit = 1
     if (!hasMore) {
       return
     }
     setLoading(true)
-    request
-      .get('https://api.axis-studio.org/wallpaper/wallpapers/', {
-        params: {
-          page: page,
-          limit,
-        },
-      })
-      .then(function (response: WallpaperResponse) {
-        setWallpaperList([...wallpaperList, ...response.results])
-        if (response.next != null) {
-          setPage(page + 1)
-          setHasMore(true)
-          setLoading(false)
-        } else {
-          setPage(page)
-          setHasMore(false)
-          setLoading(false)
-        }
-      })
-      .catch(function (error) {
-        console.log(error)
-        setPage(page)
-        setHasMore(false)
-        setLoading(false)
-      })
+    const res = await queryPhotos({
+      page: page,
+      limit,
+    }).catch((err) => {
+      console.log('err: ', err)
+      setPage(page)
+      setHasMore(false)
+      setLoading(false)
+    })
+
+    setWallpaperList([...wallpaperList, ...res.results])
+    if (res.next != null) {
+      setPage(page + 1)
+      setHasMore(true)
+      setLoading(false)
+    } else {
+      setPage(page)
+      setHasMore(false)
+      setLoading(false)
+    }
+  }
+
+  const initList = async () => {
+    const limit = mode === 'single' ? 3 : calculateLimit(getContentHeight()) * 3
+    // const limit = 3
+    setLoading(true)
+    const res = await queryPhotos({
+      page: 1,
+      limit,
+    }).catch((err) => {
+      setPage(1)
+      setHasMore(false)
+      setLoading(false)
+    })
+
+    setWallpaperList([...res.results])
+    if (res.next != null) {
+      setPage(2)
+      setHasMore(true)
+      setLoading(false)
+    } else {
+      setPage(2)
+      setHasMore(false)
+      setLoading(false)
+    }
   }
 
   const onScroll = () => {
@@ -107,8 +120,8 @@ export default function IndexPage() {
   }
 
   useEffect(() => {
-    loadMoreData()
-  }, [])
+    initList()
+  }, [mode])
 
   const handleImageClick = (
     picInfo: PicInfo,
@@ -125,42 +138,12 @@ export default function IndexPage() {
     setIsModelVisible(true)
   }
 
-  const handleOk = () => {
-    setIsModelVisible(false)
-  }
-
   const handleCancel = () => {
     setIsModelVisible(false)
   }
 
-  const singleMode = () => {
-    console.log('change to single mode')
-    setMode('single')
-  }
-
-  const tripleMode = () => {
-    console.log('change to triple mode')
-    setMode('triple')
-  }
-
   return (
     <Layout>
-      {/* <HaHeader></HaHeader> */}
-      <Header className={styles.headerContainer}>
-        <div className={styles.headerLeft}>Axis Studio</div>
-        <div>
-          <Button
-            size='large'
-            icon={<Icon type='icon-daliebiao'></Icon>}
-            onClick={singleMode}
-          ></Button>
-          <Button
-            size='large'
-            icon={<Icon type='icon-dasuolvetuliebiao'></Icon>}
-            onClick={tripleMode}
-          ></Button>
-        </div>
-      </Header>
       <Content className={styles.contentContainer}>
         <div
           id='scrollableDiv'
@@ -180,7 +163,7 @@ export default function IndexPage() {
                 <Spin />
               </div>
             }
-            endMessage={<Divider plain>It is all, nothing more 🤐</Divider>}
+            endMessage={<Divider plain></Divider>}
             scrollableTarget='scrollableDiv'
           >
             <List
@@ -208,6 +191,16 @@ export default function IndexPage() {
                         mode === 'single'
                           ? item.image_sizes[0].cdn_url
                           : item.image_sizes[1].cdn_url
+                      }
+                      width={
+                        mode === 'single'
+                          ? item.image_sizes[0].width
+                          : item.image_sizes[1].width
+                      }
+                      height={
+                        mode === 'single'
+                          ? item.image_sizes[0].height
+                          : item.image_sizes[1].height
                       }
                       onClick={() => {
                         if (mode === 'triple') {

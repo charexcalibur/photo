@@ -3,10 +3,10 @@
  * @Author: hayato
  * @Date: 2022-02-04 21:13:17
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-12 00:45:19
+ * @LastEditTime: 2022-05-12 18:36:45
  */
 import React, { FC } from 'react'
-import { PicInfo } from '@/pages/index.d'
+import { PicInfo } from '@/pages/home/index.d'
 import { createFromIconfontCN } from '@ant-design/icons'
 import styles from './index.less'
 import { Typography, Row, Col, Rate } from 'antd'
