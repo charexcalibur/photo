@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2021-03-06 16:20:25
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-12 23:21:31
+ * @LastEditTime: 2022-05-26 21:51:21
  */
 import styles from './index.less'
 import request from 'umi-request'
@@ -20,6 +20,7 @@ const Icon = createFromIconfontCN({
 
 export default function IndexPage() {
   const [mode, setMode] = useState('single')
+  const [currentRoute, setCurrentRoute] = useState('/')
 
   const singleMode = () => {
     console.log('change to single mode')
@@ -36,7 +37,14 @@ export default function IndexPage() {
   return (
     <Layout>
       <Header className={styles.headerContainer}>
-        <div className={styles.headerLeft}>Axis Studio</div>
+        <div
+          className={styles.headerLeft}
+          onClick={() => {
+            history.push('/home')
+          }}
+        >
+          Axis Studio
+        </div>
         <div>
           <Button
             type='link'

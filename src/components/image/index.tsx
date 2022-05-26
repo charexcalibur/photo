@@ -3,11 +3,10 @@
  * @Author: hayato
  * @Date: 2022-01-16 15:55:23
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-21 19:59:03
+ * @LastEditTime: 2022-05-21 20:20:41
  */
 import styles from './index.less'
 import React, { FC } from 'react'
-import { Image } from 'antd'
 import { useIntersectionObserver } from './hooks'
 interface HaImageProps {
   src: string
@@ -16,6 +15,7 @@ interface HaImageProps {
   mode: string
   width: string
   height: string
+  name: string
 }
 
 const HaImage: FC<HaImageProps> = (props) => {
@@ -32,8 +32,9 @@ const HaImage: FC<HaImageProps> = (props) => {
       }
     },
   })
-  const { src, onClick, mode, onLoad, width, height } = props
+  const { src, onClick, mode, onLoad, width, height, name } = props
   const aspectRatio = (parseInt(height) / parseInt(width)) * 100
+  console.log('name', name)
   console.log('height:width: ', height, width)
   console.log('aspectRatio', aspectRatio)
 
