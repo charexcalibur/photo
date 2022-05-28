@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2022-05-08 20:24:28
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-11 23:45:57
+ * @LastEditTime: 2022-05-28 20:53:35
  */
 import { FC, useState } from 'react'
 import { Comment, Button, List, Divider, Form, Input, message } from 'antd'
@@ -45,11 +45,11 @@ const Editor = ({
           <Input placeholder='请输入昵称, 如果未输入, 则会显示匿名用户'></Input>
         </Form.Item>
         <Form.Item label='评论内容' name='comment'>
-          <TextArea rows={4} />
+          <TextArea rows={4} placeholder='评论将在审核后展示' />
         </Form.Item>
         <Form.Item>
           <Button htmlType='submit' loading={submitting}>
-            Add Comment
+            提交评论
           </Button>
         </Form.Item>
       </Form>
