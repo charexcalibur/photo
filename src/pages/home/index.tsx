@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2021-03-06 16:20:25
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-26 21:51:21
+ * @LastEditTime: 2022-05-27 00:01:06
  */
 import styles from './index.less'
 import request from 'umi-request'
@@ -45,7 +45,7 @@ export default function IndexPage() {
         >
           Axis Studio
         </div>
-        <div>
+        <div className={styles.headerRight}>
           <Button
             type='link'
             style={{

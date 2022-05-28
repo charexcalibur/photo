@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2022-05-12 18:37:52
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-12 23:54:08
+ * @LastEditTime: 2022-05-26 22:44:29
  */
 import { Layout, Typography } from 'antd'
 import styles from './index.less'
@@ -26,7 +26,7 @@ const AboutPage = () => {
       >
         <Title>Hi!</Title>
         <Title>这里是 hayato 的个人摄影作品站</Title>
-        <Title level={2}>用来与你分享我用相机记录下的美 ^_^</Title>
+        <Title level={2}>分享我用相机记录下的美 ^_^</Title>
       </div>
       <Footer className={styles.footerContainer}>
         <div className={styles.licenses}>

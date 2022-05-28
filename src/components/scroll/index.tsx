@@ -3,12 +3,12 @@
  * @Author: hayato
  * @Date: 2021-03-06 16:20:25
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-21 20:20:00
+ * @LastEditTime: 2022-05-28 19:20:54
  */
 import styles from './index.less'
 import request from 'umi-request'
 import React, { useState, useEffect } from 'react'
-import { Layout, List, message, Spin, Divider, Card } from 'antd'
+import { Layout, List, message, Spin, Divider, Card, Button } from 'antd'
 const { Footer, Content, Header } = Layout
 import InfiniteScroll from 'react-infinite-scroll-component'
 import HaImage from '@/components/image'
@@ -46,6 +46,8 @@ export default function Scroll(props: any) {
   const [showComment, setShowComment] = useState<number>(0)
   const [id, setId] = useState<number | undefined>(undefined)
   const [comments, setComments] = useState<any[]>([])
+  const [ordering, setOrdering] = useState<string>('-rate')
+  const [headerShouldHide, setHeaderShouldHide] = useState<boolean>(false)
 
   const { mode } = props
 
@@ -71,6 +73,7 @@ export default function Scroll(props: any) {
     const res = await queryPhotos({
       page: page,
       limit,
+      ordering,
     }).catch((err) => {
       console.log('err: ', err)
       setPage(page)
@@ -97,6 +100,7 @@ export default function Scroll(props: any) {
     const res = await queryPhotos({
       page: 1,
       limit,
+      ordering: ordering,
     }).catch((err) => {
       setPage(1)
       setHasMore(false)
@@ -115,13 +119,42 @@ export default function Scroll(props: any) {
     }
   }
 
+  // const autoHideHeader = () => {
+  //   const currentTop = window.document.scrollTop();
+
+  //   var distance = main.offset().top - header.height() - sub.height();
+  //   if (previousTop >= currentTop) {
+  //     if (previousTop - currentTop >= scrollDelta) {
+  //       header.removeClass('is-hide');
+  //     }
+  //   }
+  //   else {
+  //     if (currentTop - previousTop >= scrollDelta && currentTop > scrollOffset) {
+  //       header.addClass('is-hide');
+  //     }
+  //   }
+
+  //   previousTop = currentTop;
+  //   isScroll = false;
+  // }
+
   const onScroll = () => {
     console.log('scrolling')
+    const moveDistance = Math.max(
+      document.body.scrollTop,
+      document.documentElement.scrollTop,
+    )
+    console.log('moveDistance: ', moveDistance)
+    if (moveDistance > 50) {
+      setHeaderShouldHide(true)
+    } else {
+      setHeaderShouldHide(false)
+    }
   }
 
   useEffect(() => {
     initList()
-  }, [mode])
+  }, [mode, ordering])
 
   const handleImageClick = (
     picInfo: PicInfo,
@@ -144,11 +177,49 @@ export default function Scroll(props: any) {
 
   return (
     <Layout>
+      <Header
+        className={
+          headerShouldHide
+            ? styles.filterContainerFixed
+            : styles.filterContainer
+        }
+      >
+        <Button
+          className={styles.filterButton}
+          type='link'
+          style={{
+            color: ordering === '-rate' ? '#505050' : '#ededed',
+          }}
+          onClick={() => {
+            // jump to about page
+            setOrdering('-rate')
+            setWallpaperList([])
+            // initList()
+          }}
+        >
+          精选
+        </Button>
+        <Button
+          className={styles.filterButton}
+          type='link'
+          style={{
+            color: ordering === '-shooting_date' ? '#505050' : '#ededed',
+          }}
+          onClick={() => {
+            // jump to about page
+            setOrdering('-shooting_date')
+            setWallpaperList([])
+            // initList()
+          }}
+        >
+          最新
+        </Button>
+      </Header>
       <Content className={styles.contentContainer}>
         <div
           id='scrollableDiv'
           style={{
-            height: getContentHeight(),
+            // height: getContentHeight(),
             overflow: 'auto',
           }}
           className={styles.scrollContainer}
@@ -164,7 +235,7 @@ export default function Scroll(props: any) {
               </div>
             }
             endMessage={<Divider plain></Divider>}
-            scrollableTarget='scrollableDiv'
+            // scrollableTarget='scrollableDiv'
           >
             <List
               itemLayout='vertical'
