@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2022-05-14 02:36:01
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-14 02:50:19
+ * @LastEditTime: 2022-05-28 20:03:38
  */
 import React from 'react'
 export const useIntersectionObserver = ({
@@ -17,7 +17,6 @@ export const useIntersectionObserver = ({
   threshold?: number
   rootMargin?: string
 }) => {
-  console.log('useIntersectionObserver')
   React.useEffect(() => {
     const observer = new IntersectionObserver(onIntersect, {
       rootMargin,

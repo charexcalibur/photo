@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2021-03-06 16:20:25
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-28 19:20:54
+ * @LastEditTime: 2022-05-28 20:46:11
  */
 import styles from './index.less'
 import request from 'umi-request'
@@ -51,9 +51,7 @@ export default function Scroll(props: any) {
 
   const { mode } = props
 
-  console.log('props: ', props)
   const getContentHeight = () => {
-    console.log('getContentHeight')
     return window.innerHeight - 64 + 70
   }
 
@@ -62,7 +60,7 @@ export default function Scroll(props: any) {
   }
 
   const loadMoreData = async () => {
-    console.log('loadMoreData page: ', page)
+    console.log('load more data page: ', page)
     // const limit = calculateLimit(getContentHeight()) * 3 * 3 // 以三倍缓存
     const limit = mode === 'single' ? 3 : calculateLimit(getContentHeight()) * 3
     // const limit = 1
@@ -81,19 +79,22 @@ export default function Scroll(props: any) {
       setLoading(false)
     })
 
-    setWallpaperList([...wallpaperList, ...res.results])
-    if (res.next != null) {
-      setPage(page + 1)
-      setHasMore(true)
-      setLoading(false)
-    } else {
-      setPage(page)
-      setHasMore(false)
-      setLoading(false)
-    }
+    try {
+      setWallpaperList([...wallpaperList, ...res.results])
+      if (res.next != null) {
+        setPage(page + 1)
+        setHasMore(true)
+        setLoading(false)
+      } else {
+        setPage(page)
+        setHasMore(false)
+        setLoading(false)
+      }
+    } catch {}
   }
 
   const initList = async () => {
+    setWallpaperList([])
     const limit = mode === 'single' ? 3 : calculateLimit(getContentHeight()) * 3
     // const limit = 3
     setLoading(true)
@@ -118,25 +119,6 @@ export default function Scroll(props: any) {
       setLoading(false)
     }
   }
-
-  // const autoHideHeader = () => {
-  //   const currentTop = window.document.scrollTop();
-
-  //   var distance = main.offset().top - header.height() - sub.height();
-  //   if (previousTop >= currentTop) {
-  //     if (previousTop - currentTop >= scrollDelta) {
-  //       header.removeClass('is-hide');
-  //     }
-  //   }
-  //   else {
-  //     if (currentTop - previousTop >= scrollDelta && currentTop > scrollOffset) {
-  //       header.addClass('is-hide');
-  //     }
-  //   }
-
-  //   previousTop = currentTop;
-  //   isScroll = false;
-  // }
 
   const onScroll = () => {
     console.log('scrolling')
@@ -177,10 +159,16 @@ export default function Scroll(props: any) {
 
   return (
     <Layout>
+      <div
+        style={{
+          width: '100%',
+          height: headerShouldHide ? 50 : 0,
+        }}
+      ></div>
       <Header
         className={
           headerShouldHide
-            ? styles.filterContainerFixed
+            ? `${styles.filterContainer} ${styles.filterContainerFixed} `
             : styles.filterContainer
         }
       >
@@ -229,6 +217,7 @@ export default function Scroll(props: any) {
             next={loadMoreData}
             onScroll={onScroll}
             hasMore={hasMore}
+            scrollThreshold={0.2}
             loader={
               <div className={styles.loaderSpin}>
                 <Spin />

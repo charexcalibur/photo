@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2022-01-16 15:55:23
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-21 20:20:41
+ * @LastEditTime: 2022-05-28 20:03:13
  */
 import styles from './index.less'
 import React, { FC } from 'react'
@@ -25,7 +25,6 @@ const HaImage: FC<HaImageProps> = (props) => {
   useIntersectionObserver({
     target: ref,
     onIntersect: ([{ isIntersecting }], observerElement: any) => {
-      console.log('isIntersecting', isIntersecting)
       if (isIntersecting) {
         setIsVisible(true)
         observerElement.unobserve(ref.current)
@@ -34,9 +33,6 @@ const HaImage: FC<HaImageProps> = (props) => {
   })
   const { src, onClick, mode, onLoad, width, height, name } = props
   const aspectRatio = (parseInt(height) / parseInt(width)) * 100
-  console.log('name', name)
-  console.log('height:width: ', height, width)
-  console.log('aspectRatio', aspectRatio)
 
   return (
     <div
