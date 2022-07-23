@@ -2,6 +2,8 @@
 
 📷 A Photo Website
 
+👉 [Photo](https://photo.axis-studio.org)
+
 💡 Inspired by [camarts](https://camarts.cn/)
 
 👷‍♀️ TODOs 🚧
