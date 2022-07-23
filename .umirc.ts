@@ -13,6 +13,10 @@ export default defineConfig({
         { path: '/', redirect: '/home' },
         { path: '/home', component: '@/pages/home' },
         { path: '/about', component: '@/pages/about' },
+        {
+          path: '/share/:id',
+          component: '@/pages/share',
+        },
       ],
     },
   ],
