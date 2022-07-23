@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2021-03-06 16:20:25
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-28 20:46:11
+ * @LastEditTime: 2022-07-19 17:38:16
  */
 import styles from './index.less'
 import request from 'umi-request'
@@ -248,11 +248,7 @@ export default function Scroll(props: any) {
                     <HaImage
                       mode={mode}
                       name={item.name}
-                      src={
-                        mode === 'single'
-                          ? item.image_sizes[0].cdn_url
-                          : item.image_sizes[1].cdn_url
-                      }
+                      src={item.image_sizes}
                       width={
                         mode === 'single'
                           ? item.image_sizes[0].width

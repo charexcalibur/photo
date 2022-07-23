@@ -3,13 +3,21 @@
  * @Author: hayato
  * @Date: 2022-01-16 15:55:23
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-28 20:03:13
+ * @LastEditTime: 2022-07-23 13:40:32
  */
 import styles from './index.less'
 import React, { FC } from 'react'
 import { useIntersectionObserver } from './hooks'
 interface HaImageProps {
-  src: string
+  src: {
+    cdn_url: string
+    color_range: string
+    height: string
+    id: number
+    type: number
+    uid: string
+    width: string
+  }[]
   onClick?: () => void | undefined
   onLoad?: () => void | undefined
   mode: string
@@ -46,24 +54,19 @@ const HaImage: FC<HaImageProps> = (props) => {
         <React.Fragment>
           <img
             className={`${styles.image} ${styles.thumb}`}
-            // width={width}
-            // height={height}
-            src={src}
+            src={src.find((item) => item.type === 3).cdn_url}
             style={{ visibility: isLoaded ? 'hidden' : 'visible' }}
             onLoad={onLoad}
           />
           <img
             className={`${styles.image}  ${styles.imageStyle} ${styles.full}`}
             onLoad={() => {
-              console.log('onLoad')
               setIsLoaded(true)
             }}
-            // width={width}
-            // height={height}
             style={{
               opacity: isLoaded ? 1 : 0,
             }}
-            src={src}
+            src={src.find((item) => item.type === 2).cdn_url}
             loading='lazy'
             onClick={onClick}
           />
