@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2021-03-06 16:20:25
  * @LastEditors: hayato
- * @LastEditTime: 2022-07-19 17:38:16
+ * @LastEditTime: 2022-07-25 22:36:53
  */
 import styles from './index.less'
 import request from 'umi-request'
@@ -18,6 +18,7 @@ import HaPicInfo from '@/components/picInfo'
 import HaComment from '@/components/comment'
 import { createFromIconfontCN } from '@ant-design/icons'
 import { queryPhotos } from './service'
+import { history } from 'umi'
 
 const Icon = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_3168987_9kwbsb35jhc.js',
@@ -155,6 +156,7 @@ export default function Scroll(props: any) {
 
   const handleCancel = () => {
     setIsModelVisible(false)
+    window.history.replaceState({}, '', '/')
   }
 
   return (
@@ -181,8 +183,6 @@ export default function Scroll(props: any) {
           onClick={() => {
             // jump to about page
             setOrdering('-rate')
-            setWallpaperList([])
-            // initList()
           }}
         >
           精选
@@ -196,8 +196,6 @@ export default function Scroll(props: any) {
           onClick={() => {
             // jump to about page
             setOrdering('-shooting_date')
-            setWallpaperList([])
-            // initList()
           }}
         >
           最新
@@ -261,6 +259,7 @@ export default function Scroll(props: any) {
                       }
                       onClick={() => {
                         if (mode === 'triple') {
+                          console.log('triple')
                           const picInfo = {
                             aperture: item.aperture,
                             equipments: item.equipments,
@@ -271,6 +270,7 @@ export default function Scroll(props: any) {
                             location: item.location,
                             shooting_date: item.shooting_date,
                           }
+                          window.history.pushState({}, '', item.uid)
                           return handleImageClick(
                             picInfo,
                             item.uid,

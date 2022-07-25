@@ -9,16 +9,15 @@ export default defineConfig({
   routes: [
     {
       path: '/',
-      routes: [
-        { path: '/', redirect: '/home' },
-        { path: '/home', component: '@/pages/home' },
-        { path: '/about', component: '@/pages/about' },
-        {
-          path: '/share/:id',
-          component: '@/pages/share',
-        },
-      ],
+      component: '@/pages/home',
+      exact: true,
     },
+    {
+      path: '/:id',
+      exact: true,
+      component: '@/pages/share',
+    },
+    { path: '/about', component: '@/pages/about' },
   ],
   fastRefresh: {},
   hash: true,

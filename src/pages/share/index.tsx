@@ -7,6 +7,8 @@ import HaPicInfo from '@/components/picInfo'
 import HaComment from '@/components/comment'
 import { useParams } from 'react-router-dom'
 import request from 'umi-request'
+import { CloseOutlined } from '@ant-design/icons'
+import { history } from 'umi'
 
 const Share = () => {
   const [isLoaded, setIsLoaded] = useState(false)
@@ -38,9 +40,16 @@ const Share = () => {
     return <>no photo</>
   }
 
+  const close = () => {
+    history.push('/')
+  }
+
   return (
     <>
       <div className={styles.modelImageContainer}>
+        <div className={styles.top} onClick={close}>
+          <CloseOutlined />
+        </div>
         <Row>
           <Col span={4}></Col>
           <Col span={16}>
@@ -57,6 +66,7 @@ const Share = () => {
             ) : (
               <div></div>
             )}
+            <HaComment comments={photo.comments} photo={id}></HaComment>
           </Col>
           <Col span={4}></Col>
         </Row>

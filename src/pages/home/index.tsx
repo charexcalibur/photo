@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2021-03-06 16:20:25
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-27 00:01:06
+ * @LastEditTime: 2022-07-23 21:35:00
  */
 import styles from './index.less'
 import request from 'umi-request'
@@ -24,13 +24,13 @@ export default function IndexPage() {
 
   const singleMode = () => {
     console.log('change to single mode')
-    history.push('/home')
+    // history.push('/home')
     setMode('single')
   }
 
   const tripleMode = () => {
     console.log('change to triple mode')
-    history.push('/home')
+    // history.push('/home')
     setMode('triple')
   }
 
@@ -40,7 +40,7 @@ export default function IndexPage() {
         <div
           className={styles.headerLeft}
           onClick={() => {
-            history.push('/home')
+            history.push('/')
           }}
         >
           Axis Studio
@@ -73,10 +73,7 @@ export default function IndexPage() {
       </Header>
       <Route>
         <Route path='/about' component={About}></Route>
-        <Route
-          path='/home'
-          render={() => <Scroll mode={mode}></Scroll>}
-        ></Route>
+        <Route path='/' render={() => <Scroll mode={mode}></Scroll>}></Route>
       </Route>
     </Layout>
   )
