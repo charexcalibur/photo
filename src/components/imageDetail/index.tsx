@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2022-01-16 16:14:40
  * @LastEditors: hayato
- * @LastEditTime: 2022-07-25 22:36:19
+ * @LastEditTime: 2022-08-08 22:55:40
  */
 
 import styles from './index.less'
@@ -33,6 +33,8 @@ const HaImageDetail: FC<HaImageDetailProps> = (props) => {
     return window.innerWidth
   }
 
+  console.log('getContentWidth: ', getContentWidth())
+
   return (
     <>
       <Drawer
@@ -43,11 +45,16 @@ const HaImageDetail: FC<HaImageDetailProps> = (props) => {
         destroyOnClose={true}
         mask={false}
         afterVisibleChange={() => {
-          console.log('afterVisibleChange')
           isLoad ? setIsLoad(false) : setIsLoad(true)
         }}
       >
-        <div className={styles.modelImageContainer}>
+        <div
+          className={
+            getContentWidth() <= 414
+              ? styles.modelImageContainerMobile
+              : styles.modelImageContainer
+          }
+        >
           <Row>
             <Col span={4} onClick={onclose}></Col>
             <Col span={16}>

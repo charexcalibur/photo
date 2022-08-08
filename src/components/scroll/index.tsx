@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2021-03-06 16:20:25
  * @LastEditors: hayato
- * @LastEditTime: 2022-07-25 22:36:53
+ * @LastEditTime: 2022-08-08 22:26:12
  */
 import styles from './index.less'
 import request from 'umi-request'
@@ -96,8 +96,9 @@ export default function Scroll(props: any) {
 
   const initList = async () => {
     setWallpaperList([])
-    const limit = mode === 'single' ? 3 : calculateLimit(getContentHeight()) * 3
+    const limit = mode === 'single' ? 3 : calculateLimit(getContentHeight()) * 9
     // const limit = 3
+    console.log('limit: ', limit)
     setLoading(true)
     const res = await queryPhotos({
       page: 1,

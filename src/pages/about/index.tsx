@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2022-05-12 18:37:52
  * @LastEditors: hayato
- * @LastEditTime: 2022-05-26 22:44:29
+ * @LastEditTime: 2022-08-08 22:04:08
  */
 import { Layout, Typography } from 'antd'
 import styles from './index.less'
@@ -11,6 +11,7 @@ const { Footer } = Layout
 const { Title, Text } = Typography
 
 const AboutPage = () => {
+  console.log('about')
   const getContentHeight = () => {
     console.log('getContentHeight')
     return window.innerHeight - 64 - 168
