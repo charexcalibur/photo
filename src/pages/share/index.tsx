@@ -66,7 +66,7 @@ const Share = () => {
             ) : (
               <div></div>
             )}
-            <HaComment comments={photo.comments} photo={id}></HaComment>
+            <HaComment comments={photo.comments} photo={photo.id}></HaComment>
           </Col>
           <Col span={4}></Col>
         </Row>
