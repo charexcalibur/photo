@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2021-03-06 16:20:25
  * @LastEditors: hayato
- * @LastEditTime: 2022-07-23 21:35:00
+ * @LastEditTime: 2022-11-17 15:17:34
  */
 import styles from './index.less'
 import request from 'umi-request'
@@ -14,6 +14,7 @@ import { history, NavLink, Route, Switch } from 'umi'
 import { createFromIconfontCN } from '@ant-design/icons'
 import About from '@/pages/about'
 import Scroll from '@/components/scroll'
+import MasonryScroll from '@/components/masonry'
 const Icon = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_3168987_9kwbsb35jhc.js',
 })
@@ -73,7 +74,10 @@ export default function IndexPage() {
       </Header>
       <Route>
         <Route path='/about' component={About}></Route>
-        <Route path='/' render={() => <Scroll mode={mode}></Scroll>}></Route>
+        <Route
+          path='/'
+          render={() => <MasonryScroll mode={mode}></MasonryScroll>}
+        ></Route>
       </Route>
     </Layout>
   )
