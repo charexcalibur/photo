@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2021-03-06 16:20:25
  * @LastEditors: hayato
- * @LastEditTime: 2022-11-17 16:13:22
+ * @LastEditTime: 2022-11-26 23:56:22
  */
 import styles from './index.less'
 import request from 'umi-request'
@@ -47,10 +47,12 @@ export default function MasonryScroll(props: any) {
   const [showComment, setShowComment] = useState<number>(0)
   const [id, setId] = useState<number | undefined>(undefined)
   const [comments, setComments] = useState<any[]>([])
-  const [ordering, setOrdering] = useState<string>('-rate')
+  const [ordering, setOrdering] = useState<string>('-shooting_date')
   const [headerShouldHide, setHeaderShouldHide] = useState<boolean>(false)
+  const { mode, columns } = props
 
-  const { mode } = props
+  console.log('mode: ', mode)
+  console.log('columns: ', columns)
 
   const getContentHeight = () => {
     return window.innerHeight - 64 + 70
@@ -63,7 +65,7 @@ export default function MasonryScroll(props: any) {
   const loadMoreData = async () => {
     console.log('load more data page: ', page)
     // const limit = calculateLimit(getContentHeight()) * 3 * 3 // 以三倍缓存
-    const limit = mode === 'single' ? 3 : calculateLimit(getContentHeight()) * 3
+    const limit = 30
     // const limit = 1
     if (!hasMore) {
       return
@@ -139,6 +141,17 @@ export default function MasonryScroll(props: any) {
   useEffect(() => {
     initList()
   }, [mode, ordering])
+
+  // 根据设备宽度设置列数，宽屏为3列，窄屏为1列
+  // 根据设备宽度来判断 mode，大屏幕显示三列，小屏幕显示一列
+  // useEffect(() => {
+  //   if (screenWidth > 400) {
+  //     console.log('screenWidth > 430')
+  //     setColumns(3)
+  //   } else {
+  //     setColumns(1)
+  //   }
+  // }, [screenWidth])
 
   const handleImageClick = (
     picInfo: PicInfo,
@@ -224,32 +237,41 @@ export default function MasonryScroll(props: any) {
             }
             endMessage={<Divider plain></Divider>}
             // scrollableTarget='scrollableDiv'
+            className={styles.middle}
           >
-            <Masonry elementType={'div'} columns={3} spacing={2}>
+            <Masonry
+              elementType={'div'}
+              columns={columns}
+              spacing={2}
+              // className={mode === 'single' ? styles.middle : styles.listItem}
+              // options={{
+              //   fitWidth: mode === 'single' ? true : false,
+              // }}
+            >
               {wallpaperList.map((item: any) => {
+                // console.log('item: ',  item)
                 return (
                   <>
-                    <Card
-                      bordered={false}
-                      hoverable={mode === 'single' ? false : true}
+                    <div
                       className={
                         mode === 'single' ? styles.singleItem : styles.listItem
                       }
-                      bodyStyle={{ padding: 0 }}
                     >
                       <HaImage
                         mode={mode}
                         name={item.name}
                         src={item.image_sizes}
                         width={
-                          mode === 'single'
-                            ? item.image_sizes[0].width
-                            : item.image_sizes[1].width
+                          // mode === 'single'
+                          //   ? item.image_sizes[0].width
+                          //   : item.image_sizes[1].width
+                          item.image_sizes[0].width
                         }
                         height={
-                          mode === 'single'
-                            ? item.image_sizes[0].height
-                            : item.image_sizes[1].height
+                          // mode === 'single'
+                          //   ? item.image_sizes[0].height
+                          //   : item.image_sizes[1].height
+                          item.image_sizes[0].height
                         }
                         onClick={() => {
                           if (mode === 'triple') {
@@ -282,12 +304,11 @@ export default function MasonryScroll(props: any) {
                             }
                           }
                         }}
-                        onLoad={() =>
+                        onLoad={() => {
                           setLoadedImageList([...loadedImageList, item.id])
-                        }
+                        }}
                       ></HaImage>
-                      {mode === 'single' &&
-                      loadedImageList.includes(item.id) ? (
+                      {mode === 'single' ? (
                         <HaPicInfo
                           className={styles.HaPicInfoLayout}
                           picInfo={{
@@ -308,103 +329,11 @@ export default function MasonryScroll(props: any) {
                           photo={item.id}
                         ></HaComment>
                       ) : null}
-                    </Card>
+                    </div>
                   </>
                 )
               })}
             </Masonry>
-            {/* <List
-              itemLayout='vertical'
-              grid={
-                mode === 'single'
-                  ? { gutter: 0, column: 1, xs: 1, sm: 1, md: 1, lg: 1 }
-                  : { gutter: 0, column: 3, xs: 3, sm: 3, md: 3, lg: 3 }
-              }
-              size='large'
-              dataSource={wallpaperList}
-              renderItem={(item: any) => (
-                <>
-                  <Card
-                    bordered={false}
-                    hoverable={mode === 'single' ? false : true}
-                    className={
-                      mode === 'single' ? styles.singleItem : styles.listItem
-                    }
-                    bodyStyle={{ padding: 0 }}
-                  >
-                    <HaImage
-                      mode={mode}
-                      name={item.name}
-                      src={item.image_sizes}
-                      width={
-                        mode === 'single'
-                          ? item.image_sizes[0].width
-                          : item.image_sizes[1].width
-                      }
-                      height={
-                        mode === 'single'
-                          ? item.image_sizes[0].height
-                          : item.image_sizes[1].height
-                      }
-                      onClick={() => {
-                        if (mode === 'triple') {
-                          console.log('triple')
-                          const picInfo = {
-                            aperture: item.aperture,
-                            equipments: item.equipments,
-                            focal_length: item.focal_length,
-                            iso: item.iso,
-                            shutter: item.shutter,
-                            rate: item.rate,
-                            location: item.location,
-                            shooting_date: item.shooting_date,
-                          }
-                          window.history.pushState({}, '', item.uid)
-                          return handleImageClick(
-                            picInfo,
-                            item.uid,
-                            item.image_sizes[0].cdn_url,
-                            item.comments,
-                            item.id,
-                          )
-                        } else {
-                          if (showComment === 0) {
-                            setShowComment(item.id)
-                          } else if (showComment === item.id) {
-                            setShowComment(0)
-                          } else {
-                            setShowComment(item.id)
-                          }
-                        }
-                      }}
-                      onLoad={() =>
-                        setLoadedImageList([...loadedImageList, item.id])
-                      }
-                    ></HaImage>
-                    {mode === 'single' && loadedImageList.includes(item.id) ? (
-                      <HaPicInfo
-                        className={styles.HaPicInfoLayout}
-                        picInfo={{
-                          aperture: item.aperture,
-                          equipments: item.equipments,
-                          focal_length: item.focal_length,
-                          iso: item.iso,
-                          shutter: item.shutter,
-                          rate: item.rate,
-                          location: item.location,
-                          shooting_date: item.shooting_date,
-                        }}
-                      ></HaPicInfo>
-                    ) : null}
-                    {showComment === item.id ? (
-                      <HaComment
-                        comments={item.comments}
-                        photo={item.id}
-                      ></HaComment>
-                    ) : null}
-                  </Card>
-                </>
-              )} */}
           </InfiniteScroll>
         </div>
       </Content>

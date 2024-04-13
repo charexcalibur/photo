@@ -3,7 +3,7 @@
  * @Author: hayato
  * @Date: 2021-03-06 16:20:25
  * @LastEditors: hayato
- * @LastEditTime: 2022-08-08 22:26:12
+ * @LastEditTime: 2022-11-26 22:11:51
  */
 import styles from './index.less'
 import request from 'umi-request'
@@ -233,6 +233,7 @@ export default function Scroll(props: any) {
                   : { gutter: 0, column: 3, xs: 3, sm: 3, md: 3, lg: 3 }
               }
               size='large'
+              className={styles.middle}
               dataSource={wallpaperList}
               renderItem={(item: any) => (
                 <>

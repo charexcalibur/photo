@@ -62,7 +62,7 @@ const HaPicInfo: FC<HaPicInfoProps> = (props) => {
         <div className={styles.infoBlockDesc}>
           <CameraIcon type='icon-jingtou'></CameraIcon>
           <Text type='secondary' className={styles.infoText}>
-            {equipments[1].name}
+            {equipments.length > 1 ? equipments[1].name : ''}
           </Text>
         </div>
       </div>

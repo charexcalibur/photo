@@ -18,12 +18,12 @@
   padding: 0 10px 0 0;
 }
 
-.demoLoadingContainer {
-  position: absolute;
-  bottom: 40px;
-  width: 100%;
-  text-align: center;
-}
+// .demoLoadingContainer {
+//   position: absolute;
+//   bottom: 40px;
+//   width: 100%;
+//   text-align: center;
+// }
 
 .contentContainer {
   display: flex;
@@ -32,20 +32,28 @@
 }
 
 .listItem {
+  position: relative;
   background-color: rgb(239, 242, 245);
-  padding: 1rem;
+  // padding: 1rem 22rem 2rem 22rem;
   margin: 0.5rem;
   overflow: hidden;
   width: 30%;
+  // > div {
+  //   width: 30%;
+  //   // padding: 1rem 22rem 2rem 22rem;
+  // }
 }
 
 .singleItem {
+  position: relative;
   background-color: rgb(239, 242, 245);
+  overflow: hidden;
 }
 
-@media screen and (min-width: 1268px) {
-  .singleItem {
-    padding: 1rem 22rem 2rem 22rem;
+// 宽度小于 430px 的时候，每个 item 的宽度为 100%
+@media screen and (max-width: 430px) {
+  .listItem {
+    width: 100% !important;
   }
 }
 
@@ -56,9 +64,10 @@
 }
 
 .scrollContainer {
-  width: 100%;
-  // padding: 1.5rem 2rem 0;
+  width: 1152px;
   z-index: 1;
+  margin: 0 auto;
+  overflow-x: hidden;
 }
 
 .HaPicInfoLayout {
