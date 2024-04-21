@@ -8,6 +8,8 @@
 import styles from './index.less'
 import React, { FC } from 'react'
 // import { useIntersectionObserver } from './hooks'
+import { Skeleton } from 'antd'
+
 interface HaImageProps {
   src: {
     cdn_url: string
@@ -37,7 +39,7 @@ const makeAspectRatio = (width: string, height: string) => {
 const HaImage: FC<HaImageProps> = (props) => {
   const ref = React.useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = React.useState<boolean>(false)
-  const [isLoaded, setIsLoaded] = React.useState<boolean>(false)
+  const [isLoading, setIsLoading] = React.useState<boolean>(true)
   // useIntersectionObserver({
   //   target: ref,
   //   onIntersect: ([{ isIntersecting }], observerElement: any) => {
@@ -49,20 +51,15 @@ const HaImage: FC<HaImageProps> = (props) => {
   // })
   const { src, onClick, mode, onLoad, width, height, name } = props
 
-  const aspectRatio =
-    mode === 'single'
-      ? makeAspectRatio(width, height)
-      : (parseInt(height) / parseInt(width)) * 100
-
-  console.log('src: ', src)
-
   return (
     <div
       ref={ref}
       className={mode === 'triple' ? styles.imageZoom : styles.imageContainer}
     >
       <img
-        className={`${styles.image}  ${styles.imageStyle} ${styles.full}`}
+        className={`${
+          width > height ? styles.horizontalImage : styles.verticalImage
+        }  ${styles.imageStyle} ${styles.full}`}
         src={src[0].cdn_url}
         loading='lazy'
         onClick={onClick}
